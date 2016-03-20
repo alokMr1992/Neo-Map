@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="css/nblack.css" type="text/css" media="screen">
+    <meta charset="utf-8">
+    <title>Neo Maps</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      #panel {
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        margin-left: -180px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+      }
+	  
+	   #directions-panel {
+        height: 100%;
+        float: right;
+        width: 390px;
+        overflow: auto;
+      }
+#directions-panel {
+          float: none;
+          width: auto;
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        
+<script>
+
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
+var map;
+var arr = [];
+var date; 
+var curr_hour; 
+
+function initialize() {
+  directionsDisplay = new google.maps.DirectionsRenderer();
+  var allahabad = new google.maps.LatLng(25.4500, 81.8500);
+  var mapOptions = {
+    zoom: 6,
+    center: allahabad
+  }
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  directionsDisplay.setMap(map);
+    directionsDisplay.setPanel(document.getElementById('directions-panel'));
+}
+
+function calcRoute(timeoutPeriod) {
+  //setTimeout("location.reload(true);",timeoutPeriod); Reload the page at given time interval.
+  var start = document.getElementById('start').value;
+  var end = document.getElementById('end').value;
+  var waypts = [];
+  var checkboxArray = document.getElementById('waypoints');
+  for (var i = 0; i < checkboxArray.length; i++) {
+    if (checkboxArray.options[i].selected == true) {
+      waypts.push({
+          location:checkboxArray[i].value,
+          stopover:true});
+    }
+  }
+
+  var request = {
+      origin: start,
+      destination: end,
+      waypoints: waypts,
+      optimizeWaypoints: true,
+      travelMode: google.maps.TravelMode.DRIVING
+  };
+  directionsService.route(request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+      var route = response.routes[0];
+	  
+      // For each route, display summary information.
+	  var sum=0; //storing the distance
+      for (var i = 0; i < route.legs.length; i++) {
+        var routeSegment = i + 1;
+        summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
+        summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+        summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+        summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+		sum+=route.legs[i].distance.value;
+		}
+		sum=sum/1000;
+		summaryPanel.innerHTML += '<b>Total Distance: ' + sum + '</b> km <br>';
+		
+		arr.push(sum);
+		
+		var k;
+		for(k=0;k<arr.length;k++){
+			alert(arr[k]);
+		
+		}	  
+    }
+  });
+
+    date=new Date();
+    curr_hour=date.getHours();
+
+    if(start == document.getElementById('start').value && end == document.getElementById('end').value)
+        {
+          if (curr_hour==0){
+            document.getElementById("tdr").innerHTML = "No Traffic at all";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==1){
+            document.getElementById("tdr").innerHTML = "No Traffic at all";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==2){
+            document.getElementById("tdr").innerHTML = "No Traffic at all";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==3){
+            document.getElementById("tdr").innerHTML = "No Traffic at all";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==4){
+            document.getElementById("tdr").innerHTML = "No Traffic at all";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==5){
+            document.getElementById("tdr").innerHTML = "No Traffic at all";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==6){
+            document.getElementById("tdr").innerHTML = "No Traffic at all";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==7){
+            document.getElementById("tdr").innerHTML = "Traffic at Station";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==8){
+            document.getElementById("tdr").innerHTML = "No Traffic";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==9){
+            document.getElementById("tdr").innerHTML = "No Traffic";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==10){
+            document.getElementById("tdr").innerHTML = "Traffic in Katra, Civil Lines";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==11){
+            document.getElementById("tdr").innerHTML = "Traffic in Civil Lines";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==12){
+            document.getElementById("tdr").innerHTML = "No Traffic";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==13){
+            document.getElementById("tdr").innerHTML = "Traffic in Katra, Bank Road";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==14){
+            document.getElementById("tdr").innerHTML = "Traffic in Katra, Bank Road";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==15){
+            document.getElementById("tdr").innerHTML = "No Traffic";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==16){
+            document.getElementById("tdr").innerHTML = "No Traffic";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==17){
+            document.getElementById("tdr").innerHTML = "Traffic at Fort. "+" Traffic at Museum";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==18){
+            document.getElementById("tdr").innerHTML = "Traffic at Museum";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==19){
+            document.getElementById("tdr").innerHTML = "Traffic in Civil Lines";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==20){
+            document.getElementById("tdr").innerHTML = "Traffic in Civil Lines";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==21){
+            document.getElementById("tdr").innerHTML = "Traffic in Katra";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==22){
+            document.getElementById("tdr").innerHTML = "No Traffic";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+          if (curr_hour==23){
+            document.getElementById("tdr").innerHTML = "No Traffic";
+            document.getElementById("spr").innerHTML = "Route shown on map is already Shortest";
+            return(false);
+          }
+
+        }
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+ //onload="JavaScript:calcRoute(300000);" Can be used to reload the page at every 5 minutes.
+</script>
+  </head>
+  <body>
+    <div style="float:left;width:100%;text-align:center;padding-top:5px;background-color:#DAA520;">
+	<b>Plan Your Journey</b>
+	
+	</div>
+	 <ul id="menu">
+    <li class="menu-right"><a href="about.html">About Us</a></li>
+  <li class="menu-right"><a href="allahabad.html">Plan Your Travel</a> 
+  </li>
+  <li class="menu-right"><a href="index.html">Home</a>
+      </li>
+</ul>
+    <div id="control_panel" style="float:left;width:25%;text-align:left;padding-top:20px;background-color:#DAA520;">
+    <div style="margin:20px;border-width:2px;">
+    <b>Starting Point:</b>
+
+    <select id="start">
+      <option value="Civil Lines, Allahabad, Uttar Pradesh, India">Civil Lines</option>
+      <option value="Triveni Sangam, Kumbh Mela Area I, Allahabad, Uttar Pradesh, India">Sangam, UP</option>
+      <option value="Allahabad Museum, George Town, Allahabad, Uttar Pradesh, India">Allahabad Museum</option>
+      <option value="Allahabad fort, Allahabad, Uttar Pradesh, India">Allahabad Fort</option>
+    </select>
+    <br>
+	Time1<input type="text"/>
+    <i>Select Sub Station: <br/>
+    (Ctrl-Click for multiple selection)</i> <br/>
+    <select multiple id="waypoints">
+	<option value="Allahabad Museum, George Town, Allahabad, Uttar Pradesh, India">Allahabad Museum</input>
+      <option value="Katra, Allahabad, Uttar Pradesh, India">Katra</input>
+      <option value="Civil Lines, Allahabad, Uttar Pradesh, India">Civil Lines</input>
+      <option value="Allahabad fort, Allahabad, Uttar Pradesh, India">Allahabad Fort</input>
+     
+    </select>
+    <br/>
+    <b>End Point:</b></br>
+    <select id="end">
+		<option value="Allahabad fort, Allahabad, Uttar Pradesh, India">Allahabad Fort</option>
+      <option value="Civil Lines, Allahabad, Uttar Pradesh, India">Civil Lines</option>
+      <option value="Triveni Sangam, Kumbh Mela Area I, Allahabad, Uttar Pradesh, India">Sangam, UP</option>
+      <option value="Allahabad Museum, George Town, Allahabad, Uttar Pradesh, India">Allahabad Museum</option>
+     </select>
+	<br/>
+	Time2<input type="text"/>
+      <input type="submit" onclick="calcRoute();"><br/>
+      <table width="595" height="227" border="0">
+      <tr>
+      <td><form id="form1" name="form1" method="post" action="">
+        <table width="305" height="150" border="1">
+        <tr>
+          <td width="80">Traffic Density Route</td>
+          <td width="284"><font color='red'> <div id="tdr"> </div> </font>&nbsp;</td>
+          </tr>
+          <tr>
+          <td>Shortest Path Route</td>
+          <td><font color='green'> <div id="spr"> </div> </font>&nbsp;</td>
+          </tr>
+          </table>
+      </form></td>
+      </tr>
+      </table>
+
+    </div>
+    <div id="directions_panel" style="margin:20px;background-color:#DAA520;"></div>
+	<div id="directions-panel"></div>
+	</div>
+	<div id="map-canvas" style="float:right;width:75%;height:100%;"></div>
+  </body>
+</html>
